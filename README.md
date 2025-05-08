@@ -5,46 +5,8 @@ This is a Local Based Project.
 
 
 
-code structure :-
-car-services/
-├── pom.xml
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com/
-│       │       └── team36/
-│       │           ├── model/
-│       │           │   ├── Booking.java
-│       │           │   ├── Car.java
-│       │           │   ├── CarResale.java
-│       │           │   ├── InsurancePlan.java
-│       │           │   ├── Main.java
-│       │           │   └── ServicePackage.java
-│       │           ├── servlet/
-│       │           │   ├── InsurancePurchaseServlet.java
-│       │           │   ├── InsuranceServlet.java
-│       │           │   ├── ResaleServlet.java
-│       │           │   ├── ServiceBookingServlet.java
-│       │           │   └── ServiceServlet.java
-│       │           └── util/
-│       │               └── DatabaseUtil.java
-│       ├── resources/
-│       │   └── META-INF/
-│       └── webapp/
-│           ├── index.html
-│           ├── insurance_purchase.html
-│           ├── insurance.html
-│           ├── resale_list.html
-│           ├── resale.html
-│           ├── service_booking.html
-│           ├── service.html
-│           ├── css/
-│           │   ├── insurance_purchase.css
-│           │   └── style.css
-│           ├── js/
-│           │   └── script.js
-│           └── WEB-INF/
-│               └── web.xml
+Folder structure :-
+available in Structure.txt 
 
 
 
