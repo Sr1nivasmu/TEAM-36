@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Service</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Car Service</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resale.html">Car Resale</a></li>
+                <li><a href="service.html">Car Service</a></li>
+                <li><a href="insurance.html">Car Insurance</a></li>
+                <li><a href="service_booking.html">Book Service</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="service-main">
+        <section class="service-packages">
+            <h2>Service Packages</h2>
+            <div id="service-listings" class="package-grid">
+                <!-- Service packages will be added here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TEAM36</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        fetch('/service')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('service-listings');
+                data.forEach(service => {
+                    const card = document.createElement('div');
+                    card.className = 'package-card';
+                    card.innerHTML = `
+                        <h3>${service.package}</h3>
+                        <p>${service.details}</p>
+                        <p class="price">₹ ${service.price.toLocaleString()}</p>`;
+                    container.appendChild(card);
+                });
+            });
+    </script>
+</body>
+</html>

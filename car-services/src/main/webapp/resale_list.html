@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Car Resale Listings</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        table {
+            width: 95%;
+            margin: 2em auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.6em 1em;
+            text-align: left;
+        }
+        th {
+            background-color: #0073e6;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        caption {
+            font-size: 1.5em;
+            margin-bottom: 1em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Car Resale Listings</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resale.html">Car Resale</a></li>
+                <li><a href="insurance_purchase.html">Buy Insurance</a></li>
+                <li><a href="service_booking.html">Book Service</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <table aria-label="Car Resale Listings">
+            <caption>Available Cars for Resale</caption>
+            <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>Current Owner</th>
+                    <th>Type of Car</th>
+                    <th>Kilometers Driven</th>
+                    <th>Service Record</th>
+                    <th>Age of Car (Years)</th>
+                    <th>Major Accidents</th>
+                    <th>Minor Accidents</th>
+                    <th>Insurance</th>
+                    <th>Price (₹)</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="resaleTableBody">
+                <!-- Data rows will be inserted here -->
+            </tbody>
+        </table>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('resaleTableBody');
+            const BASE_URL = window.location.origin + '/car-services-1.0-SNAPSHOT';
+
+            fetch(`${BASE_URL}/resale`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch resale data.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="11" style="text-align:center;">No resale data available.</td></tr>';
+                        return;
+                    }
+                    let rowsHtml = '';
+                    data.forEach(item => {
+                        rowsHtml += '<tr>';
+                        rowsHtml += `<td>${escapeHTML(item.carName)}</td>`;
+                        rowsHtml += `<td>${escapeHTML(item.currentOwner)}</td>`;
+                        rowsHtml += `<td>${escapeHTML(item.carType)}</td>`;
+                        rowsHtml += `<td>${item.kilometersDriven}</td>`;
+                        rowsHtml += `<td>${item.serviceRecord}</td>`;
+                        rowsHtml += `<td>${item.carAge}</td>`;
+                        rowsHtml += `<td>${item.accidentsMajor}</td>`;
+                        rowsHtml += `<td>${item.accidentsMinor}</td>`;
+                        rowsHtml += `<td>${item.insurance ? 'Yes' : 'No'}</td>`;
+                        rowsHtml += `<td>${item.price}</td>`;
+                        rowsHtml += `<td>${escapeHTML(item.description)}</td>`;
+                        rowsHtml += '</tr>';
+                    });
+                    tableBody.innerHTML = rowsHtml;
+                })
+                .catch(error => {
+                    tableBody.innerHTML = `<tr><td colspan="11" style="text-align:center; color:red;">Error loading data: ${escapeHTML(error.message)}</td></tr>`;
+                });
+
+            function escapeHTML(str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('resaleTableBody');
+            const BASE_URL = window.location.origin + '/car-services-1.0-SNAPSHOT';
+
+            fetch(`${BASE_URL}/resale`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch resale data.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="11" style="text-align:center;">No resale data available.</td></tr>';
+                        return;
+                    }
+                    let rowsHtml = '';
+                    data.forEach(item => {
+                        rowsHtml += '<tr>';
+                        rowsHtml += `<td>${escapeHTML(item.carName)}</td>`;
+                        rowsHtml += `<td>${escapeHTML(item.currentOwner)}</td>`;
+                        rowsHtml += `<td>${escapeHTML(item.carType)}</td>`;
+                        rowsHtml += `<td>${item.kilometersDriven}</td>`;
+                        rowsHtml += `<td>${item.serviceRecord}</td>`;
+                        rowsHtml += `<td>${item.carAge}</td>`;
+                        rowsHtml += `<td>${item.accidentsMajor}</td>`;
+                        rowsHtml += `<td>${item.accidentsMinor}</td>`;
+                        rowsHtml += `<td>${item.insurance ? 'Yes' : 'No'}</td>`;
+                        rowsHtml += `<td>${item.numberOfOwners}</td>`;
+                        rowsHtml += `<td>${escapeHTML(item.description)}</td>`;
+                        rowsHtml += '</tr>';
+                    });
+                    tableBody.innerHTML = rowsHtml;
+                })
+                .catch(error => {
+                    tableBody.innerHTML = `<tr><td colspan="11" style="text-align:center; color:red;">Error loading data: ${escapeHTML(error.message)}</td></tr>`;
+                });
+
+            function escapeHTML(str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            }
+        });
+    </script>
+</body>
+</html>

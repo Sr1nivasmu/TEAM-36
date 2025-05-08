@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buy Insurance</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/insurance_purchase.css" />
+    <style>
+        /* Additional inline styles for subtle animations and responsive tweaks */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        #responseMessage {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Buy Car Insurance</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resale.html">Car Resale</a></li>
+                <li><a href="service.html">Car Service</a></li>
+                <li><a href="insurance.html">Car Insurance</a></li>
+                <li><a href="insurance_purchase.html" class="active">Buy Insurance</a></li>
+                <li><a href="service_booking.html">Book Service</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="insurance-purchase-main" role="main">
+        <section>
+            <h2>Select Insurance Plan</h2>
+            <form id="insuranceForm" method="POST" action="insurance_purchase" aria-describedby="responseMessage">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required aria-required="true" aria-label="Name" />
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required aria-required="true" aria-label="Date" />
+                <div class="plan-card" role="radiogroup" aria-labelledby="planLegend">
+                    <span id="planLegend" class="sr-only">Insurance Plans</span>
+                    <label class="plan-option" for="basic" role="radio" aria-checked="false" tabindex="0">
+                        <input type="radio" id="basic" name="insuranceType" value="Basic" required aria-required="true" />
+                        <svg class="plan-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="32" height="32" fill="#0073e6">
+                            <circle cx="12" cy="12" r="10" />
+                        </svg>
+                        <span>Basic Insurance - <strong>₹3000</strong></span>
+                    </label>
+                    <label class="plan-option" for="inter" role="radio" aria-checked="false" tabindex="-1">
+                        <input type="radio" id="inter" name="insuranceType" value="Inter" />
+                        <svg class="plan-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="32" height="32" fill="#0073e6">
+                            <rect x="4" y="4" width="16" height="16" rx="3" ry="3" />
+                        </svg>
+                        <span>Inter Insurance - <strong>₹7000</strong></span>
+                    </label>
+                    <label class="plan-option" for="premium" role="radio" aria-checked="false" tabindex="-1">
+                        <input type="radio" id="premium" name="insuranceType" value="Premium" />
+                        <svg class="plan-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="32" height="32" fill="#0073e6">
+                            <polygon points="12,2 22,22 2,22" />
+                        </svg>
+                        <span>Premium Insurance - <strong>₹15000</strong></span>
+                    </label>
+                </div>
+                <button type="submit" class="btn">Buy Insurance</button>
+            </form>
+            <div id="responseMessage" role="alert" aria-live="polite"></div>
+            <section id="purchaseHistorySection" aria-label="Purchase History" style="margin-top: 2em;">
+                <h2>Check Your Purchase History</h2>
+                <label for="historyName">Enter your name:</label>
+                <input type="text" id="historyName" name="historyName" aria-label="Name for purchase history" />
+                <button id="fetchHistoryBtn" class="btn" type="button">Show History</button>
+                <div id="historyResults" aria-live="polite" style="margin-top: 1em;"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('insuranceForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.text())
+            .then(text => {
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.textContent = text;
+                if (text.toLowerCase().includes('successfully')) {
+                    responseMessage.className = 'success-message';
+                } else {
+                    responseMessage.className = 'error-message';
+                }
+                form.reset();
+            })
+            .catch(error => {
+                const responseMessage = document.getElementById('responseMessage');
+                responseMessage.textContent = 'Error processing request.';
+                responseMessage.className = 'error-message';
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const historyNameInput = document.getElementById('historyName');
+            const fetchHistoryBtn = document.getElementById('fetchHistoryBtn');
+            const historyResults = document.getElementById('historyResults');
+
+            // Base URL for API requests - adjust if your app context path is different
+            const BASE_URL = window.location.origin + '/car-services-1.0-SNAPSHOT';
+
+            fetchHistoryBtn.addEventListener('click', function() {
+                const name = historyNameInput.value.trim();
+                historyResults.innerHTML = '';
+                if (!name) {
+                    historyResults.textContent = 'Please enter a name to fetch purchase history.';
+                    return;
+                }
+                historyResults.textContent = 'Loading history...';
+                fetch(`${BASE_URL}/insurance_purchase?name=${encodeURIComponent(name)}`)
+                    .then(function(response) {
+                        if (!response.ok) {
+                            return response.text().then(function(text) { throw new Error(`HTTP error! status: ${response.status}, body: ${text}`); });
+                        }
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (data.length === 0) {
+                            historyResults.textContent = 'No purchase history found for this name.';
+                            return;
+                        }
+                        let historyHtml = '<h3>History for ' + escapeHTML(name) + ':</h3><ul class="history-list">';
+                        data.forEach(function(item) {
+                            historyHtml += '<li>' + escapeHTML(item.insuranceType) + ' Insurance purchased on ' + escapeHTML(item.purchaseDate) + ' for insurance date ' + escapeHTML(item.insuranceDate) + ' at ₹' + item.price + '</li>';
+                        });
+                        historyHtml += '</ul>';
+                        historyResults.innerHTML = historyHtml;
+                    })
+                    .catch(function(error) {
+                        historyResults.textContent = 'Error loading purchase history: ' + error.message;
+                    });
+            });
+
+            function escapeHTML(str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            }
+        });
+    </script>
+</body>
+</html>

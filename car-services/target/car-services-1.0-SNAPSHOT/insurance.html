@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Insurance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Car Insurance</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resale.html">Car Resale</a></li>
+                <li><a href="service.html">Car Service</a></li>
+                <li><a href="insurance.html">Car Insurance</a></li>
+                <li><a href="insurance_purchase.html">Buy Insurance</a></li>
+                <li><a href="service_booking.html">Book Service</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="insurance-main">
+        <section class="insurance-plans">
+            <h2>Insurance Plans</h2>
+            <div id="insurance-listings" class="plan-grid">
+                <!-- Insurance plans will be added here by JavaScript -->
+            </div>
+            <div style="text-align:center; margin-top: 20px;">
+                <a href="insurance_purchase.html" class="btn" style="font-weight: bold;">Click here to purchase insurance</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TEAM36</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        fetch('/insurance')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('insurance-listings');
+                data.forEach(plan => {
+                    const card = document.createElement('div');
+                    card.className = 'plan-card';
+                    card.innerHTML = `
+                        <h3>${plan.plan}</h3>
+                        <p>${plan.coverage}</p>
+                        <p class="price">₹ ${plan.price.toLocaleString()}</p>`;
+                    container.appendChild(card);
+                });
+            });
+    </script>
+</body>
+</html>

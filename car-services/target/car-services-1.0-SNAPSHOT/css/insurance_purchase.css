@@ -1,0 +1,170 @@
+/* Styles specific to insurance_purchase.html */
+
+.insurance-purchase-main {
+    max-width: 600px;
+    margin: 4em auto;
+    background: linear-gradient(135deg, #e0f0ff 0%, #ffffff 100%);
+    border-radius: 15px;
+    padding: 3em 3.5em;
+    box-shadow: 0 8px 25px rgba(0, 80, 158, 0.25);
+    color: #003366;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+.insurance-purchase-main::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at center, #0073e6 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.15;
+    pointer-events: none;
+}
+.insurance-purchase-main h2 {
+    text-align: center;
+    color: #004a99;
+    margin-bottom: 2em;
+    font-weight: 800;
+    font-size: 2.2em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.insurance-purchase-main label {
+    display: block;
+    margin-bottom: 0.8em;
+    font-weight: 700;
+    color: #003366;
+    font-size: 1.05em;
+}
+
+.insurance-purchase-main input[type="text"],
+.insurance-purchase-main input[type="date"] {
+    width: 100%;
+    padding: 0.85em 1em;
+    margin-bottom: 1.5em;
+    border: 2px solid #0073e6;
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: #002244;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.insurance-purchase-main input[type="text"]:focus,
+.insurance-purchase-main input[type="date"]:focus {
+    border-color: #004a99;
+    box-shadow: 0 0 8px rgba(0, 74, 153, 0.5);
+    outline: none;
+}
+
+.insurance-purchase-main input[type="radio"] {
+    width: auto;
+    margin-right: 0.7em;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.insurance-purchase-main label.radio-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2em;
+    font-weight: 600;
+    color: #004080;
+    font-size: 1.05em;
+    cursor: pointer;
+}
+
+.insurance-purchase-main button.btn {
+    width: 100%;
+    background-color: #0073e6;
+    color: white;
+    padding: 1em 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3em;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 1.5em;
+    box-shadow: 0 4px 12px rgba(0, 115, 230, 0.6);
+}
+
+.insurance-purchase-main button.btn:hover {
+    background-color: #004a99;
+    box-shadow: 0 6px 18px rgba(0, 74, 153, 0.8);
+}
+
+#responseMessage {
+    margin-top: 2em;
+    font-weight: 700;
+    text-align: center;
+    color: #004a99;
+    font-size: 1.1em;
+}
+
+/* New styles for plan card and options */
+.plan-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5em 2em;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2em;
+    margin-bottom: 1.5em;
+}
+.plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+.plan-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: 600;
+    color: #004080;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+    width: 180px;
+    margin-bottom: 1em;
+}
+.plan-option:hover {
+    color: #0073e6;
+}
+.plan-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.8em;
+    fill: #0073e6;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    .insurance-purchase-main {
+        padding: 2em 1.5em;
+        margin: 2em 1em;
+    }
+    .insurance-purchase-main h2 {
+        font-size: 1.8em;
+    }
+    .insurance-purchase-main button.btn {
+        font-size: 1.1em;
+        padding: 0.85em 0;
+    }
+    .plan-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .plan-icon {
+        margin-bottom: 0.5em;
+    }
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Car Service</title>
+    <link rel="stylesheet" href="css/style.css">
+        <style>
+        </style>
+</head>
+<body>
+    <header>
+        <h1>Book a Car Service</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resale.html">Car Resale</a></li>
+                <li><a href="service.html">Car Service</a></li>
+                <li><a href="service_booking.html">Book Service</a></li>
+                <li><a href="insurance_purchase.html">Buy Insurance</a></li>
+                <li><a href="insurance.html">Car Insurance</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Schedule Your Service</h2>
+            <form id="serviceForm">
+                <div class="form-group">
+                    <label for="userName">Your Name:</label>
+                    <input type="text" id="userName" name="userName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="carMakeModel">Select Car:</label>
+                    <select id="carMakeModel" name="carMakeModel" required>
+                        <option value="">-- Select Car --</option>
+                        {/* Options will be populated by JavaScript based on car.pdf data */}
+                        {/* Example Format: <option value="Tata Nano Genx">Tata Nano Genx</option> */}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceDate">Preferred Service Date (DD/MM/YYYY):</label>
+                    <input type="date" id="serviceDate" name="serviceDate" required pattern="\d{2}/\d{2}/\d{4}">
+                    {/* Note: You can click on calendar icon to choose. */}
+                    {/* The date easily. */}
+                </div>
+
+         <button type="submit" class="btn">Book Service Appointment</button>
+                 <p id="formMessage" style="margin-top: 1em; text-align: center;"></p>
+            </form>
+        </section>
+
+        <section class="history-section">
+            <h2>Service History</h2>
+             <div class="form-group">
+                 <label for="historyName">Enter Name to View History:</label>
+                 <input type="text" id="historyName" name="historyName">
+                 <button type="button" id="viewHistoryBtn" class="btn">View History</button>
+            </div>
+            <div id="historyResult">
+                {/* History will be loaded here */}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TEAM36</p>
+    </footer>
+
+    {/* Use existing script.js or create a new one for this page */}
+    {/* <script src="js/script.js"></script> */}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carSelect = document.getElementById('carMakeModel');
+            const serviceForm = document.getElementById('serviceForm');
+            const formMessage = document.getElementById('formMessage');
+            const viewHistoryBtn = document.getElementById('viewHistoryBtn');
+            const historyNameInput = document.getElementById('historyName');
+            const historyResultDiv = document.getElementById('historyResult');
+        
+            // Base URL for API requests
+            const BASE_URL = window.location.origin + '/car-services-1.0-SNAPSHOT';
+        
+            // Populate Car Models
+            const carModels = [
+                "Tata Nano Genx", "Datsun RediGo-", "Renault Kwid", "Maruti Suzuki Eeco",
+                "Maruti Suzuki Alto K10", "Datsun Go", "Maruti Suzuki Celerio Tour", "Hyundai Santro"
+            ];
+            carModels.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model;
+                option.textContent = model;
+                carSelect.appendChild(option);
+            });
+        
+            // Handle Form Submission
+            serviceForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                formMessage.textContent = 'Submitting...';
+                console.log('Form submitted');
+        
+                const formData = new FormData(serviceForm);
+                const data = {
+                    userName: formData.get('userName'),
+                    carMakeModel: formData.get('carMakeModel'),
+                    serviceDate: formData.get('serviceDate')
+                };
+                console.log('Sending data to POST /servicebooking:', data);
+        
+                fetch(`${BASE_URL}/servicebooking`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    console.log('POST Response status:', response.status);
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(`HTTP error! status: ${response.status}, body: ${text}`); });
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    console.log('POST Response data:', result);
+                    if (result.success) {
+                        formMessage.textContent = 'Service booked successfully!';
+                        serviceForm.reset();
+                        if (data.userName === historyNameInput.value.trim()) {
+                            fetchHistory(data.userName);
+                        }
+                    } else {
+                        formMessage.textContent = 'Error booking service: ' + (result.message || 'Unknown error');
+                    }
+                })
+                .catch(error => {
+                    console.error('POST Fetch error:', error);
+                    formMessage.textContent = 'An error occurred. Please try again. Details: ' + error.message;
+                });
+            });
+        
+            // Handle View History
+            viewHistoryBtn.addEventListener('click', function() {
+                const name = historyNameInput.value.trim();
+                if (name) {
+                    fetchHistory(name);
+                } else {
+                    historyResultDiv.innerHTML = '<p>Please enter a name to view history.</p>';
+                }
+            });
+        
+            function fetchHistory(name) {
+                historyResultDiv.innerHTML = '<p>Loading history...</p>';
+                console.log('Fetching history for:', name);
+                fetch(`${BASE_URL}/servicebooking?userName=${encodeURIComponent(name)}`)
+                    .then(response => {
+                        console.log('GET Response status:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(`HTTP error! status: ${response.status}, body: ${text}`); });
+                        }
+                        return response.json();
+                    })
+                    .then(historyData => {
+                        console.log('GET History data:', historyData);
+                        if (historyData.length > 0) {
+                            let historyHtml = '<h3>History for ' + escapeHTML(name) + ':</h3><ul class="history-list">';
+                            historyData.forEach(booking => {
+                                const dateParts = booking.serviceDate.split('-');
+                                const displayDate = dateParts.length === 3 ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}` : 'Invalid Date';
+                                historyHtml += `<li>Car: ${escapeHTML(booking.carMakeModel)} - Date: ${displayDate}</li>`;
+                            });
+                            historyHtml += '</ul>';
+                            historyResultDiv.innerHTML = historyHtml;
+                        } else {
+                            historyResultDiv.innerHTML = '<p>No service history found for ' + escapeHTML(name) + '.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('GET History fetch error:', error);
+                        historyResultDiv.innerHTML = '<p>Error loading service history: ' + error.message + '</p>';
+                    });
+            }
+        
+            function escapeHTML(str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            }
+        });
+        </script>
+</body>
+</html>

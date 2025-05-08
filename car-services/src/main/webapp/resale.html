@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>List Your Car for Resale</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .resale-form {
+            max-width: 600px;
+            margin: 2em auto;
+            padding: 2em;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+        }
+        .resale-form label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+        }
+        .resale-form input[type="text"],
+        .resale-form input[type="number"],
+        .resale-form select,
+        .resale-form textarea {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .resale-form textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .resale-form button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            padding: 1em 2em;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .resale-form button:hover {
+            background-color: #005bb5;
+        }
+        #formMessage {
+            margin-top: 1em;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>List Your Car for Resale</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resale.html" class="active">Car Resale</a></li>
+                <li><a href="insurance_purchase.html">Buy Insurance</a></li>
+                <li><a href="service_booking.html">Book Service</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <form id="resaleForm" class="resale-form" method="POST" action="resale">
+            <label for="carName">Car Name:</label>
+            <input type="text" id="carName" name="carName" required />
+
+            <label for="currentOwner">Current Car Owner:</label>
+            <input type="text" id="currentOwner" name="currentOwner" required />
+
+            <label for="carType">Type of Car:</label>
+            <select id="carType" name="carType" required>
+                <option value="">-- Select Type --</option>
+                <option value="sedan">Sedan</option>
+                <option value="suv">SUV</option>
+                <option value="compact">Compact</option>
+                <option value="mpv">MPV</option>
+            </select>
+
+            <label for="kilometersDriven">Kilometers Driven:</label>
+            <input type="number" id="kilometersDriven" name="kilometersDriven" min="0" required />
+
+            <label for="serviceRecord">Service Record (Total Services Done):</label>
+            <input type="number" id="serviceRecord" name="serviceRecord" min="0" required />
+
+            <label for="carAge">Age of the Car (Years):</label>
+            <input type="number" id="carAge" name="carAge" min="0" required />
+
+            <label for="accidentsMajor">Number of Major Accidents:</label>
+            <input type="number" id="accidentsMajor" name="accidentsMajor" min="0" required />
+
+            <label for="accidentsMinor">Number of Minor Accidents:</label>
+            <input type="number" id="accidentsMinor" name="accidentsMinor" min="0" required />
+
+            <label for="insurance">Insurance:</label>
+            <select id="insurance" name="insurance" required>
+                <option value="">-- Select --</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+
+            <label for="numberOfOwners">Price (₹):</label>
+<input type="number" id="numberOfOwners" name="numberOfOwners" min="1" required />
+
+
+            <label for="description">Description (Reason for Selling, Contact details):</label>
+            <textarea id="description" name="description"></textarea>
+
+            <button type="submit">Submit</button>
+            <div id="formMessage" role="alert" aria-live="polite"></div>
+        </form>
+        <div style="text-align:center; margin-top: 1.5em;">
+            <button type="button" onclick="window.location.href='resale_list.html'" style="padding: 0.8em 1.5em; font-size: 1em; border-radius: 6px; background-color: #0073e6; color: white; border: none; cursor: pointer;">
+                View Resale List
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('resaleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            })
+            .then(response => response.text())
+            .then(text => {
+                const formMessage = document.getElementById('formMessage');
+                formMessage.textContent = text;
+                if (text.toLowerCase().includes('successfully')) {
+                    formMessage.style.color = 'green';
+                    form.reset();
+                } else {
+                    formMessage.style.color = 'red';
+                }
+            })
+            .catch(() => {
+                const formMessage = document.getElementById('formMessage');
+                formMessage.textContent = 'Error submitting form.';
+                formMessage.style.color = 'red';
+            });
+        });
+    </script>
+</body>
+</html>

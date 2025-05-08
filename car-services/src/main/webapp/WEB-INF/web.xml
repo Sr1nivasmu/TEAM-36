@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+    <display-name>Car Services</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>InsurancePurchaseServlet</servlet-name>
+        <servlet-class>com.team36.servlet.InsurancePurchaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InsurancePurchaseServlet</servlet-name>
+        <url-pattern>/insurance_purchase</url-pattern>
+    </servlet-mapping>
+    <servlet>
+    <servlet-name>ResaleServlet</servlet-name>
+    <servlet-class>com.team36.servlet.ResaleServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ResaleServlet</servlet-name>
+    <url-pattern>/resale</url-pattern>
+</servlet-mapping>
+
+</web-app>

@@ -1,0 +1,212 @@
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafb;
+    color: #333;
+    line-height: 1.6;
+}
+header {
+    background: #00509e;
+    color: white;
+    padding: 1.5em 1em;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+}
+nav ul li {
+    display: inline;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+nav ul li a:hover {
+    color: #ffd700;
+}
+main {
+    padding: 3em 1em;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+footer {
+    background: #00509e;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+.feature-grid, .listing-grid, .package-grid, .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5em;
+}
+.feature-card, .listing-card, .package-card, .plan-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-card:hover, .listing-card:hover, .package-card:hover, .plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.price {
+    font-weight: 700;
+    color: #00509e;
+    font-size: 1.2em;
+    margin-top: 0.5em;
+}
+h1, h2, h3 {
+    color: #003366;
+}
+button, .btn {
+    background-color: #00509e;
+    color: white;
+    border: none;
+    padding: 0.75em 1.5em;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover, .btn:hover {
+    background-color: #003366;
+}
+input[type="text"], input[type="date"], select, textarea {
+    width: 100%;
+    padding: 0.75em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+label {
+    font-weight: 600;
+    margin-bottom: 0.5em;
+    display: block;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* New styles for insurance purchase form */
+.insurance-purchase-main {
+    max-width: 600px;
+    margin: 4em auto;
+    background: linear-gradient(135deg, #e0f0ff 0%, #ffffff 100%);
+    border-radius: 15px;
+    padding: 3em 3.5em;
+    box-shadow: 0 8px 25px rgba(0, 80, 158, 0.25);
+    color: #003366;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+.insurance-purchase-main h2 {
+    text-align: center;
+    color: #004a99;
+    margin-bottom: 2em;
+    font-weight: 800;
+    font-size: 2.2em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.insurance-purchase-main label {
+    display: block;
+    margin-bottom: 0.8em;
+    font-weight: 700;
+    color: #003366;
+    font-size: 1.05em;
+}
+
+.insurance-purchase-main input[type="text"],
+.insurance-purchase-main input[type="date"] {
+    width: 100%;
+    padding: 0.85em 1em;
+    margin-bottom: 1.5em;
+    border: 2px solid #0073e6;
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: #002244;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.insurance-purchase-main input[type="text"]:focus,
+.insurance-purchase-main input[type="date"]:focus {
+    border-color: #004a99;
+    box-shadow: 0 0 8px rgba(0, 74, 153, 0.5);
+    outline: none;
+}
+
+.insurance-purchase-main input[type="radio"] {
+    width: auto;
+    margin-right: 0.7em;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.insurance-purchase-main label.radio-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2em;
+    font-weight: 600;
+    color: #004080;
+    font-size: 1.05em;
+    cursor: pointer;
+}
+
+.insurance-purchase-main button.btn {
+    width: 100%;
+    background-color: #0073e6;
+    color: white;
+    padding: 1em 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3em;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 1.5em;
+    box-shadow: 0 4px 12px rgba(0, 115, 230, 0.6);
+}
+
+.insurance-purchase-main button.btn:hover {
+    background-color: #004a99;
+    box-shadow: 0 6px 18px rgba(0, 74, 153, 0.8);
+}
+
+#responseMessage {
+    margin-top: 2em;
+    font-weight: 700;
+    text-align: center;
+    color: #004a99;
+    font-size: 1.1em;
+}
